@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueLock - профиль</title>
+    <link rel="icon" href="../static/img/icon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html">
+            <h1>BlueLock</h1>
+        </a>
+        <div class="header-search">
+            <input type="search" class="form-control" placeholder="search" id="inputLogin" aria-describedby="emailHelp">
+            <a href="ask.html" rel="noopener noreferrer" title="Задать вопрос"><button type="submit" class="btn-solid theme-primary">Goal!</button></a>
+        </div>
+        <div class="header-user-info">
+            <img class="header-user-avatar" src="../static/img/icon.jpg" alt="Avatar">
+            <div class="header-user-actions">
+                <span>Itoshi Rin</span>
+                <div>
+                    <a href="profile.html">Settings</a>
+                    <a href="">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="main-aside-layout">
+        <main>
+            <div class="main-settings">
+                <h1>Settings: ______</h1>
+                <form class="main-settings-form">
+                    <div class="main-settings-form-login">
+                        <label for="inputLogin" class="form-label">Login</label>
+                        <input type="login" class="form-control" value="login" id="inputLogin" aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="main-settings-form-email">
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" value="email" aria-describedby="emailHelp" id="fieldValidateEmail" required>
+                    </div>
+                    <div class="main-settings-form-nick">
+                        <label for="inputNick" class="form-label">Nickname</label>
+                        <input type="nickname" class="form-control" value="nickname" id="inputNick" aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="main-settings-form-upload">
+                        <label for="formFile" class="form-label">Avatar</label>
+                        <div class="main-settings-form-upload-photo">
+                            <img src="../static/img/icon.jpg" width="100%" height="90%">
+                            <input class="form-control" type="file" id="formFile">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-solid theme-primary">Сохранить</button>
+                </form>
+            </div>
+        </main>
+        <aside>
+            <div class="aside-tags">
+                <h1>Tags</h1>
+                
+                <div class="aside-tags-row">
+                    <span class="badge theme-primary">Lol</span>
+                    <span class="badge badge-subtle theme-primary">New</span>
+                    <span class="badge badge-outline theme-primary">Cool</span>
+                </div>
+                <div class="aside-tags-row">
+                    <span class="badge theme-primary">2026</span>
+                    <span class="badge badge-subtle theme-primary">52</span>
+                    <span class="badge badge-outline theme-primary">Footbal</span>
+                </div>
+                <div class="aside-tags-row">
+                    <span class="badge theme-primary">Bluelock</span>
+                    <span class="badge badge-subtle theme-primary">Ego</span>
+                    <span class="badge badge-outline theme-primary">^-^</span>
+                </div>
+            </div>
+            <div class="aside-members">
+                <h1>Best Members</h1>
+                <div class="aside-members-list">
+                    <a href="/"><h3>Itoshi</h3></a>
+                    <a href="/"><h3>Isagi</h3></a>
+                    <a href="/"><h3>Bachira</h3></a>
+                    <a href="/"><h3>Nagi</h3></a>
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <footer>
+        <div class="footer-info-block">
+            <h4>Ivan Solovev WEB-13</h4>
+            <a href="https://github.com/RewithSolo/2026-VK-EDU-Web-13-Solovev-I"><h4>Repo</h4></a>
+            <a href="https://t.me/delon1xx"><h4>@delon1xx</h4></a>
+            <a href="https://education.vk.company/profile/iva.soloviov/"><h4>VK Education Profile</h4></a>
+        </div>
+    </footer>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+</body>
+</html>
