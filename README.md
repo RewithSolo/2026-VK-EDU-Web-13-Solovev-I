@@ -1,2 +1,3 @@
-# 2026-VK-EDU-Web-13-Solovev-I
-VK Education | Web-Technologies
+# Сайт по BlueLock
+## Соловьев Иван Web-13
+Я использовал для тестирования google chrome, safari немного грустит у меня почему-то от bootstrap.
