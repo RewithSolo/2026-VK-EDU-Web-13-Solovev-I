@@ -1,0 +1,339 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/*
+input[type='search'] {
+    width: 200px;
+    height: px;
+    border: 2px solid black;
+    border-radius: 16px;
+    outline: none;
+}*/
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 20px 40px;
+    border-bottom: 1px solid grey;
+}
+
+.header-user-avatar {
+    height: 40px;
+    width: 40px;
+}
+
+.header-user-info {
+    display: flex;
+    gap: 14px;
+}
+
+.header-search {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.header-search button {
+    height: 26px;
+    background: rgb(30, 178, 30);
+    color: white;
+    -webkit-box-shadow: 14px 14 px 0px -2px #000000;
+    box-shadow: 14px 14 px 0px -2px #000000;
+}
+
+.header-search button:hover {
+    background: rgb(85, 214, 85);
+}
+
+input[type='search']:focus, input[type='search']:focus-visible {
+    border: 2px solid lightseagreen;
+}
+
+aside {
+    width: 20vw;
+    margin-top: 10px;
+}
+
+.main-aside-layout {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+    flex: 1 0 auto;
+}
+
+.aside-tags-row {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.aside-members {
+    margin-top: 40px;
+}
+
+.aside-members-list h3 {
+    margin-top: 10px;
+}
+
+
+.main-top {
+    margin-top: 20px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.card {
+    width: 60vw;
+    margin-top: 20px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.card-body-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-body-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pagintator {
+    margin-top: 20px;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 100%;
+    padding: 20px 40px;
+    margin-top: 40px;
+    border-top: 1px solid grey;
+    flex-shrink: 0;
+}
+
+.footer-info-block {
+    display: flex;
+    justify-content: left;
+    gap: 40px;
+}
+
+/* cтраница ask */
+
+.main-ask {
+    margin-top: 40px;
+}
+
+.ask-question-title {
+    margin-top: 30px;
+    gap: 40px;
+    width: 60vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.ask-question-message {
+    margin-top: 30px;
+    gap: 40px;
+    width: 60vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.ask-question-tags {
+    margin-top: 30px;
+    gap: 40px;
+    width: 60vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.ask-question-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.ask-question-button button {
+    margin-top: 20px;
+    justify-self: flex-end;
+    width: 150px;
+}
+
+
+.form-label {
+    width: 10vw;
+}
+
+/* cтраница login */
+
+.main-login {
+    margin-top: 40px;
+    width: 40vw;
+}
+
+.main-login a {
+    display: inline-block;
+    margin-top: 20px;
+    justify-self: center;
+}
+
+.main-login-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+
+.main-login-form-login {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-login-form-password {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+/* cтраница register/sign-up */
+
+.main-register {
+    margin-top: 40px;
+    width: 40vw;
+}
+
+.main-register-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+
+.main-register-form-login {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-register-form-email {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-register-form-nick {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-register-form-password {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-register-form-upload {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-register a {
+    display: inline-block;
+    margin-top: 20px;
+    justify-self: center;
+}
+
+
+/* cтраница settings/profile */
+.main-settings {
+    margin-top: 40px;
+    width: 40vw;
+}
+
+.main-settings-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+
+
+.main-settings-form-login {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-settings-form-email {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-settings-form-nick {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+
+.main-settings-form-upload {
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;
+}
+
+.main-settings-form-upload-photo {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: flex-end;
+    align-items:flex-end;
+    width:90%;
+}
+
+.main-question {
+    width: 60vw;
+    display:flex;
+    gap:40px;
+    flex-direction: column;
+    margin-top:40px;
+    margin-bottom: 40px;
+}
+
+.question-answer-area {
+    margin-top: 40px;
+    width: 60vw;
+}
