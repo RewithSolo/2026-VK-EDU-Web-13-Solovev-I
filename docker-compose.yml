@@ -1,0 +1,35 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "127.0.0.1:8000:8000"
+
+    environment:
+      DEBUG: "1"
+
+    command:
+      - manage.py
+      - runserver
+      - 0.0.0.0:8000
+
+    volumes:
+      - .:/app
+      - media_volume:/app/media
+
+    security_opt:
+      - no-new-privileges:true
+
+    cap_drop:
+      - ALL
+
+    pids_limit: 100
+
+    init: true
+
+    restart: unless-stopped
+
+volumes:
+  media_volume:

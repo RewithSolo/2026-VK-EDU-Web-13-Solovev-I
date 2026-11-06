@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}BlueLock - профиль{% endblock %}
+
+{% block content %}
+<div class="main-settings">
+    <h1>Settings</h1>
+    <form class="main-settings-form">
+        <div class="main-settings-form-login">
+            <label class="form-label">Login</label>
+            <input type="text" class="form-control" value="login" required>
+        </div>
+        <div class="main-settings-form-email">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" value="email@example.com" required>
+        </div>
+        <div class="main-settings-form-nick">
+            <label class="form-label">Nickname</label>
+            <input type="text" class="form-control" value="nickname" required>
+        </div>
+        <div class="main-settings-form-upload">
+            <label class="form-label">Avatar</label>
+            <div class="main-settings-form-upload-photo">
+                <img src="{% static 'img/icon.jpg' %}" width="100" height="90">
+                <input class="form-control" type="file">
+            </div>
+        </div>
+        <button type="submit" class="btn-solid theme-primary">Сохранить</button>
+    </form>
+</div>
+{% endblock %}

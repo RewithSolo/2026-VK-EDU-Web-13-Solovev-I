@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}BlueLock - New Questions{% endblock %}
+
+{% block content %}
+<div class="main-top">
+    <h1>New questions</h1>
+    <a href="{% url 'hot' %}"><h4>Hot Questions</h4></a>
+</div>
+
+{% for question in page_obj %}
+<div class="card">
+    <div class="card-body">
+        <div class="card-body-left">
+            <img src="{% static 'img/icon.jpg' %}" height="100px" width="100px">
+            <div class="align-items-center border rounded px-2 py-1 bg-light" style="display: flex; gap: 10px;">
+                <span class="me-2 fw-bold">{{ question.rating }}</span>
+                <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <img src="{% static 'img/up-arrow.png' %}" height="15px" width="15px">
+                </button>
+                <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <img src="{% static 'img/down-arrow.png' %}" height="15px" width="15px">
+                </button>
+            </div>
+        </div>
+        <div class="card-body-right">
+            <h5 class="mt-0 mb-2">
+                <a href="{% url 'question' question.id %}">{{ question.title }}</a>
+            </h5>
+            <p class="card-text fg-2">{{ question.text }}</p>
+            <span>
+                <a href="{% url 'question' question.id %}">answers ({{ question.answers_count }})</a>
+                Tags:
+                {% for tag in question.tags %}
+                    <a href="{% url 'tag' tag %}">{{ tag }}</a>
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% include 'core/includes/pagination.html' with page_obj=page_obj %}
+{% endblock %}
