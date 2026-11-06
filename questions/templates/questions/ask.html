@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}BlueLock - задать вопрос{% endblock %}
+
+{% block content %}
+<div class="main-ask">
+    <h1>Спросите о наболевшем</h1>
+    <form class="ask-question-form">
+        <div class="ask-question-title">
+            <label for="questionTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="questionTitle" placeholder="Почему я не топ-1 мира по футболу?">
+        </div>
+        <div class="ask-question-message">
+            <label for="fieldTextarea" class="form-label">Message</label>
+            <textarea class="form-control" id="fieldTextarea" rows="3" placeholder="Подробнее опишите суть вопроса"></textarea>
+        </div>
+        <div class="ask-question-tags">
+            <label for="questionTags" class="form-label">Tags</label>
+            <input type="text" class="form-control" id="questionTags" placeholder="football 2026 ^-^">
+        </div>
+        <div class="ask-question-button">
+            <button type="submit" class="btn-solid theme-primary">Goal!</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

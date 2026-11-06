@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block title %}BlueLock - войти{% endblock %}
+
+{% block content %}
+<div class="main-login">
+    <h1>Log in</h1>
+    <form class="main-login-form">
+        <div class="main-login-form-login">
+            <label class="form-label">Login</label>
+            <input type="text" class="form-control" placeholder="ваш логин" required>
+        </div>
+        <div class="main-login-form-password">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" placeholder="ваш пароль" required>
+        </div>
+        <button type="submit" class="btn-solid theme-primary">Войти</button>
+    </form>
+    <a href="{% url 'signup' %}">создать аккаунт</a>
+</div>
+{% endblock %}

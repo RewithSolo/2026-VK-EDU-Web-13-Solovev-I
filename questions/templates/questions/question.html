@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}BlueLock - Вопрос{% endblock %}
+
+{% block content %}
+<div class="main-question">
+    <div class="card-body">
+        <div class="card-body-left">
+            <img src="{% static 'img/icon.jpg' %}" height="100px" width="100px">
+            <div class="align-items-center border rounded px-2 py-1 bg-light" style="display: flex; gap: 10px;">
+                <span class="me-2 fw-bold">0</span>
+                <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <img src="{% static 'img/up-arrow.png' %}" height="15px" width="15px">
+                </button>
+                <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <img src="{% static 'img/down-arrow.png' %}" height="15px" width="15px">
+                </button>
+            </div>
+        </div>
+        <div class="card-body-right">
+            <h5 class="mt-0 mb-2">Question #{{ question_id }}</h5>
+            <p class="card-text fg-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <span>Tags: <a href="{% url 'tag' 'bluelock' %}">bluelock</a> <a href="{% url 'tag' 'football' %}">football</a></span>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+{% for i in "12" %}
+<div class="card">
+    <div class="card-body">
+        <div class="card-body-left">
+            <img src="{% static 'img/icon.jpg' %}" height="100px" width="100px">
+            <div class="align-items-center border rounded px-2 py-1 bg-light" style="display: flex; gap: 10px;">
+                <span class="me-2 fw-bold">0</span>
+                <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <img src="{% static 'img/up-arrow.png' %}" height="15px" width="15px">
+                </button>
+                <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <img src="{% static 'img/down-arrow.png' %}" height="15px" width="15px">
+                </button>
+            </div>
+        </div>
+        <div class="card-body-right">
+            <h5 class="mt-0 mb-2">Answer</h5>
+            <p class="card-text fg-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="form-field">
+                <input type="checkbox" id="checkLabel{{ forloop.counter }}" class="check">
+                <label for="checkLabel{{ forloop.counter }}">Correct?</label>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<div class="question-answer-area">
+    <textarea class="form-control" placeholder="Введите свой ответ сюда..." rows="3"></textarea>
+</div>
+<button type="submit" class="btn-solid theme-primary" style="margin-top: 20px;">Ответить</button>
+{% endblock %}
