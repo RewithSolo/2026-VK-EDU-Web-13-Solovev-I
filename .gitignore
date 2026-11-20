@@ -28,3 +28,4 @@ Thumbs.db
 # Прочее
 .env
 .env.local
+.env.docker
