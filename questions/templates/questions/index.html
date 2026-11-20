@@ -18,16 +18,20 @@
         <div class="card-body">
             <div class="card-body-left">
                 {% if question.author.profile.avatar %}
-                    <img src="{{ question.author.profile.avatar.url }}" height="100px" width="100px" alt="Avatar">
+                    <img src="{{ MEDIA_URL }}{{ question.author.profile.avatar }}" height="100px" width="100px" alt="Avatar">
                 {% else %}
                     <img src="{% static 'img/icon.jpg' %}" height="100px" width="100px" alt="Avatar">
                 {% endif %}
                 <div class="align-items-center border rounded px-2 py-1 bg-light" style="display: flex; gap: 10px;">
-                    <span class="me-2 fw-bold">{{ question.rating }}</span>
-                    <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <span class="me-2 fw-bold question-rating">{{ question.rating }}</span>
+                    <button type="button" class="btn btn-sm vote-btn" data-vote="up" data-question-id="{{ question.id }}" data-type="question"
+                        {% if not user.is_authenticated %}disabled title="Войдите, чтобы лайкать"{% endif %}
+                        style="background-color: aliceblue; width: 20px; height:20px;">
                         <img src="{% static 'img/up-arrow.png' %}" height="15px" width="15px">
                     </button>
-                    <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <button type="button" class="btn btn-sm vote-btn" data-vote="down" data-question-id="{{ question.id }}" data-type="question"
+                        {% if not user.is_authenticated %}disabled title="Войдите, чтобы лайкать"{% endif %}
+                        style="background-color: aliceblue; width: 20px; height:20px;">
                         <img src="{% static 'img/down-arrow.png' %}" height="15px" width="15px">
                     </button>
                 </div>
@@ -59,4 +63,69 @@
 {% endif %}
 
 {% include 'core/includes/pagination.html' with page_obj=page_obj %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('.vote-btn').click(function(e) {
+        e.preventDefault();
+
+        const type = $(this).data('type');
+        const vote = $(this).data('vote');
+        const btn = $(this);
+
+        let endpoint, id;
+        if (type === 'question') {
+            id = $(this).data('question-id');
+            endpoint = `/api/questions/${id}/vote/`;
+        } else {
+            id = $(this).data('answer-id');
+            endpoint = `/api/answers/${id}/vote/`;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: endpoint,
+            contentType: 'application/json',
+            data: JSON.stringify({type: vote}),
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            success: function(response) {
+                if (type === 'question') {
+                    btn.closest('.card-body-left').find('.question-rating').text(response.rating);
+                } else {
+                    btn.closest('.card-body-left').find('.answer-rating').text(response.rating);
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 401) {
+                    window.location.href = '/login/?next=' + window.location.pathname;
+                } else {
+                    alert(xhr.responseJSON.error || 'Ошибка при голосовании');
+                }
+            }
+        });
+    });
+});
+
+function getCookie(name) {
+    if (name === 'csrftoken') {
+        return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    }
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 {% endblock %}

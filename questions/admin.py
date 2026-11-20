@@ -53,8 +53,8 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('get_question', 'author', 'rating', 'created_at')
-    list_filter = ('created_at', 'rating', 'question')
+    list_display = ('get_question', 'author', 'rating', 'is_correct', 'created_at')
+    list_filter = ('created_at', 'rating', 'is_correct', 'question')
     search_fields = ('text', 'author__username', 'question__title')
     readonly_fields = ('created_at',)
     fieldsets = (
@@ -62,7 +62,7 @@ class AnswerAdmin(admin.ModelAdmin):
             'fields': ('question', 'author', 'text')
         }),
         ('Метаданные', {
-            'fields': ('rating', 'created_at')
+            'fields': ('rating', 'is_correct', 'created_at')
         }),
     )
 

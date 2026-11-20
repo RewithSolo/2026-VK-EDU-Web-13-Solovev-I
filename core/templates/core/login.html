@@ -5,14 +5,38 @@
 {% block content %}
 <div class="main-login">
     <h1>Log in</h1>
-    <form class="main-login-form">
+    <form class="main-login-form" method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="main-login-form-login">
-            <label class="form-label">Login</label>
-            <input type="text" class="form-control" placeholder="ваш логин" required>
+            <label class="form-label">{{ form.username.label }}</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="text-danger">
+                    {% for error in form.username.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="main-login-form-password">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control" placeholder="ваш пароль" required>
+            <label class="form-label">{{ form.password.label }}</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div class="text-danger">
+                    {% for error in form.password.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <button type="submit" class="btn-solid theme-primary">Войти</button>
     </form>

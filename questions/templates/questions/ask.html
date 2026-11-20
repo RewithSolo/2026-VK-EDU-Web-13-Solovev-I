@@ -6,22 +6,59 @@
 {% block content %}
 <div class="main-ask">
     <h1>Спросите о наболевшем</h1>
-    <form class="ask-question-form">
-        <div class="ask-question-title">
-            <label for="questionTitle" class="form-label">Title</label>
-            <input type="text" class="form-control" id="questionTitle" placeholder="Почему я не топ-1 мира по футболу?">
+    {% if user.is_authenticated %}
+        <form class="ask-question-form" method="POST">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="ask-question-title">
+                <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="text-danger">
+                        {% for error in form.title.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="ask-question-message">
+                <label for="{{ form.text.id_for_label }}" class="form-label">{{ form.text.label }}</label>
+                {{ form.text }}
+                {% if form.text.errors %}
+                    <div class="text-danger">
+                        {% for error in form.text.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="ask-question-tags">
+                <label for="{{ form.tags_input.id_for_label }}" class="form-label">{{ form.tags_input.label }}</label>
+                {{ form.tags_input }}
+                {% if form.tags_input.errors %}
+                    <div class="text-danger">
+                        {% for error in form.tags_input.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="ask-question-button">
+                <button type="submit" class="btn-solid theme-primary">Goal!</button>
+            </div>
+        </form>
+    {% else %}
+        <div class="alert alert-warning">
+            <p>Вам нужно <a href="{% url 'login' %}">войти</a>, чтобы задать вопрос</p>
         </div>
-        <div class="ask-question-message">
-            <label for="fieldTextarea" class="form-label">Message</label>
-            <textarea class="form-control" id="fieldTextarea" rows="3" placeholder="Подробнее опишите суть вопроса"></textarea>
-        </div>
-        <div class="ask-question-tags">
-            <label for="questionTags" class="form-label">Tags</label>
-            <input type="text" class="form-control" id="questionTags" placeholder="football 2026 ^-^">
-        </div>
-        <div class="ask-question-button">
-            <button type="submit" class="btn-solid theme-primary">Goal!</button>
-        </div>
-    </form>
+    {% endif %}
 </div>
 {% endblock %}
