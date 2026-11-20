@@ -8,16 +8,20 @@
     <div class="card-body">
         <div class="card-body-left">
             {% if question.author.profile.avatar %}
-                <img src="{{ question.author.profile.avatar.url }}" height="100px" width="100px" alt="Avatar">
+                <img src="{{ MEDIA_URL }}{{ question.author.profile.avatar }}" height="100px" width="100px" alt="Avatar">
             {% else %}
                 <img src="{% static 'img/icon.jpg' %}" height="100px" width="100px" alt="Avatar">
             {% endif %}
             <div class="align-items-center border rounded px-2 py-1 bg-light" style="display: flex; gap: 10px;">
-                <span class="me-2 fw-bold">{{ question.rating }}</span>
-                <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                <span class="me-2 fw-bold question-rating">{{ question.rating }}</span>
+                <button type="button" class="btn btn-sm vote-btn" data-vote="up" data-question-id="{{ question.id }}" data-type="question"
+                    {% if not user.is_authenticated %}disabled title="Войдите, чтобы лайкать"{% endif %}
+                    style="background-color: aliceblue; width: 20px; height:20px;">
                     <img src="{% static 'img/up-arrow.png' %}" height="15px" width="15px">
                 </button>
-                <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                <button type="button" class="btn btn-sm vote-btn" data-vote="down" data-question-id="{{ question.id }}" data-type="question"
+                    {% if not user.is_authenticated %}disabled title="Войдите, чтобы лайкать"{% endif %}
+                    style="background-color: aliceblue; width: 20px; height:20px;">
                     <img src="{% static 'img/down-arrow.png' %}" height="15px" width="15px">
                 </button>
             </div>
@@ -48,26 +52,38 @@
 
 {% if page_obj %}
     {% for answer in page_obj %}
-    <div class="card">
+    <div class="card" id="answer-{{ answer.id }}">
         <div class="card-body">
             <div class="card-body-left">
                 {% if answer.author.profile.avatar %}
-                    <img src="{{ answer.author.profile.avatar.url }}" height="100px" width="100px" alt="Avatar">
+                    <img src="{{ MEDIA_URL }}{{ answer.author.profile.avatar }}" height="100px" width="100px" alt="Avatar">
                 {% else %}
                     <img src="{% static 'img/icon.jpg' %}" height="100px" width="100px" alt="Avatar">
                 {% endif %}
                 <div class="align-items-center border rounded px-2 py-1 bg-light" style="display: flex; gap: 10px;">
-                    <span class="me-2 fw-bold">{{ answer.rating }}</span>
-                    <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <span class="me-2 fw-bold answer-rating">{{ answer.rating }}</span>
+                    <button type="button" class="btn btn-sm vote-btn" data-vote="up" data-answer-id="{{ answer.id }}" data-type="answer"
+                        {% if not user.is_authenticated %}disabled title="Войдите, чтобы лайкать"{% endif %}
+                        style="background-color: aliceblue; width: 20px; height:20px;">
                         <img src="{% static 'img/up-arrow.png' %}" height="15px" width="15px">
                     </button>
-                    <button type="button" class="btn btn-sm" style="background-color: aliceblue; width: 20px; height:20px;">
+                    <button type="button" class="btn btn-sm vote-btn" data-vote="down" data-answer-id="{{ answer.id }}" data-type="answer"
+                        {% if not user.is_authenticated %}disabled title="Войдите, чтобы лайкать"{% endif %}
+                        style="background-color: aliceblue; width: 20px; height:20px;">
                         <img src="{% static 'img/down-arrow.png' %}" height="15px" width="15px">
                     </button>
                 </div>
+                {% if question.author == user %}
+                <button type="button" class="btn btn-sm mark-correct-btn" data-answer-id="{{ answer.id }}"
+                    style="background-color: {% if answer.is_correct %}lightgreen{% else %}aliceblue{% endif %}; width: 20px; height:20px; margin-top: 5px;"
+                    title="Отметить как правильный ответ">
+                    ✓
+                </button>
+                {% endif %}
             </div>
             <div class="card-body-right">
                 <h6 class="mt-0 mb-2">{{ answer.author.username }}</h6>
+                {% if answer.is_correct %}<p style="color: green; font-weight: bold;">✓ Правильный ответ</p>{% endif %}
                 <p class="card-text fg-2">{{ answer.text }}</p>
                 <small class="text-muted">{{ answer.created_at|date:"d.m.Y H:i" }}</small>
             </div>
@@ -83,8 +99,112 @@
     </div>
 {% endif %}
 
-<div class="question-answer-area">
-    <textarea class="form-control" placeholder="Введите свой ответ сюда..." rows="3"></textarea>
+{% if user.is_authenticated %}
+<form method="POST" action="{% url 'answer' question.id %}" class="question-answer-area">
+    {% csrf_token %}
+    <textarea class="form-control" name="text" placeholder="Введите свой ответ сюда..." rows="3" required></textarea>
+    <button type="submit" class="btn-solid theme-primary" style="margin-top: 20px;">Ответить</button>
+</form>
+{% else %}
+<div class="alert alert-warning" style="margin-top: 20px;">
+    <p>Вам нужно <a href="{% url 'login' %}?next={% url 'question' question.id %}">войти</a>, чтобы оставить ответ</p>
 </div>
-<button type="submit" class="btn-solid theme-primary" style="margin-top: 20px;">Ответить</button>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Vote buttons
+    $('.vote-btn').click(function(e) {
+        e.preventDefault();
+
+        const type = $(this).data('type');
+        const vote = $(this).data('vote');
+        const btn = $(this);
+
+        let endpoint, id;
+        if (type === 'question') {
+            id = $(this).data('question-id');
+            endpoint = `/api/questions/${id}/vote/`;
+        } else {
+            id = $(this).data('answer-id');
+            endpoint = `/api/answers/${id}/vote/`;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: endpoint,
+            contentType: 'application/json',
+            data: JSON.stringify({type: vote}),
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            success: function(response) {
+                if (type === 'question') {
+                    $('.question-rating').text(response.rating);
+                } else {
+                    btn.closest('.card-body-left').find('.answer-rating').text(response.rating);
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 401) {
+                    window.location.href = '/login/?next=' + window.location.pathname;
+                } else {
+                    alert(xhr.responseJSON.error || 'Ошибка при голосовании');
+                }
+            }
+        });
+    });
+
+    // Mark correct button
+    $('.mark-correct-btn').click(function(e) {
+        e.preventDefault();
+        const answerId = $(this).data('answer-id');
+        const btn = $(this);
+
+        $.ajax({
+            type: 'POST',
+            url: `/api/answers/${answerId}/correct/`,
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            success: function(response) {
+                if (response.is_correct) {
+                    btn.css('background-color', 'lightgreen');
+                } else {
+                    btn.css('background-color', 'aliceblue');
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 401) {
+                    window.location.href = '/login/?next=' + window.location.pathname;
+                } else {
+                    alert(xhr.responseJSON.error || 'Ошибка при отметке ответа');
+                }
+            }
+        });
+    });
+});
+
+function getCookie(name) {
+    if (name === 'csrftoken') {
+        return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    }
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 {% endblock %}

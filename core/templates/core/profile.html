@@ -6,25 +6,60 @@
 {% block content %}
 <div class="main-settings">
     <h1>Settings</h1>
-    <form class="main-settings-form">
+    <form class="main-settings-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="main-settings-form-login">
-            <label class="form-label">Login</label>
-            <input type="text" class="form-control" value="login" required>
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" value="{{ user.username }}" disabled>
         </div>
         <div class="main-settings-form-email">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" value="email@example.com" required>
+            <label class="form-label">{{ form.email.label }}</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="text-danger">
+                    {% for error in form.email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="main-settings-form-nick">
-            <label class="form-label">Nickname</label>
-            <input type="text" class="form-control" value="nickname" required>
+            <label class="form-label">{{ form.first_name.label }}</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+                <div class="text-danger">
+                    {% for error in form.first_name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="main-settings-form-upload">
-            <label class="form-label">Avatar</label>
+            <label class="form-label">{{ form.avatar.label }}</label>
             <div class="main-settings-form-upload-photo">
-                <img src="{% static 'img/icon.jpg' %}" width="100" height="90">
-                <input class="form-control" type="file">
+                {% if form.instance.avatar %}
+                    <img src="{{ MEDIA_URL }}{{ form.instance.avatar }}" width="100" height="90">
+                {% else %}
+                    <img src="{% static 'img/icon.jpg' %}" width="100" height="90">
+                {% endif %}
+                {{ form.avatar }}
             </div>
+            {% if form.avatar.errors %}
+                <div class="text-danger">
+                    {% for error in form.avatar.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <button type="submit" class="btn-solid theme-primary">Сохранить</button>
     </form>
